@@ -1,25 +1,15 @@
 const platformModule = require("tns-core-modules/platform");
-const app = require("tns-core-modules/application");
 
 module.exports = {
-    getData: function (fbAppId) {
-        // try {
-        //     if (platformModule.isAndroid) {
-		// 		if(fbAppId)
-		// 			com.facebook.FacebookSdk.setApplicationId(fbAppId);
-        //         com.facebook.FacebookSdk.setAutoLogAppEventsEnabled(true);
-        //         com.facebook.FacebookSdk.sdkInitialize(app.android.context);
-		// 		//com.facebook.appevents.AppEventsLogger.newLogger(app.android.context).logEvent("Registered");
-        //     }
-        //     else {
-		// 		if(fbAppId)
-		// 			FBSDKSettings.setAppID(fbAppId);
-        //         FBSDKSettings.setAutoLogAppEventsEnabled(true);
-		// 		//FBSDKAppEvents.logEvent("Registered");
-        //     }
-        // }
-        // catch(e){
-        //     console.log(e);
-        // }
+    getUptimeInMinutes: function () {
+        if (platformModule.isIOS){
+            var uptime = SystemServices.sharedServices().systemsUptime;
+            var values = uptime.split(" ");
+            if(values.length != 3)
+                return null;
+            
+            return +values[0] * 1440 + +values[1] * 60 + +values[2];
+        }
+        return null;
     }
 };
